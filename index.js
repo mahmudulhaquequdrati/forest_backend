@@ -5,7 +5,7 @@ const colors = require("colors");
 const cors = require("cors");
 const connectDB = require("./src/config/connectDB");
 const errorHandler = require("./src/middleware/errorHandler");
-const PORT = process.env.PORT || 6000;
+const PORT = process.env.PORT || 5000;
 const app = express();
 
 const forestRoute = require("./src/routes/forestRoute");
@@ -27,6 +27,7 @@ app.get("/", (req, res) => {
 // -----
 // Routes
 app.use("/api", forestRoute);
+app.use('/uploads', express.static('uploads'));
 // -----
 // ----------
 // ---------------

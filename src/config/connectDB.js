@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const colors = require("colors");
 
+
 const connectDB = async () => {
   // set strict query to false
   mongoose.set("strict", false);
