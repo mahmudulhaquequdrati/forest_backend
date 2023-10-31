@@ -33,11 +33,13 @@ const addToMap = async (req, res) => {
 };
 const updateToMap = async (req, res) => {
   try {
-    const forest_info = new Forest(req.body);
-    const info = await forest_info.save();
+    const { id } = req.params;
+    const updates = req.body;
+    const options = { new: true };
+    const updatedInfo = await Forest.findByIdAndUpdate(id, updates, options);
     res.status(200).json({
-      message: "New Info Added To map successfully",
-      data: info,
+      message: "Info updated successfully",
+      data: updatedInfo,
     });
   } catch (err) {
     res.status(403).json({

@@ -33,6 +33,10 @@ const ForestIno = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    availability: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
