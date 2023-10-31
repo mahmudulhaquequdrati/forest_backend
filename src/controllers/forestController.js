@@ -1,3 +1,4 @@
+const upload = require("../middleware/fileUpload");
 const Forest = require("../models/ForestInfo");
 
 const getAllInfo = async (req, res) => {
@@ -16,6 +17,7 @@ const getAllInfo = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
 const addToMap = async (req, res) => {
   try {
     console.log(req.body);
@@ -31,7 +33,71 @@ const addToMap = async (req, res) => {
       error: err.message,
     });
   }
+=======
+// const addToMap = async (req, res) => {
+//   try {
+//     const forest_info = new Forest(req.body);
+//     const info = await forest_info.save();
+//     res.status(200).json({
+//       message: "New Info Added To map successfully",
+//       data: info,
+//     });
+//   } catch (err) {
+//     res.status(403).json({
+//       errorMessage: "There was a problem adding info to the map",
+//       error: err.message,
+//     });
+//   }
+// };
+const addToMap = (req, res) => {
+  upload(req, res, async (err) => {
+    if (err) {
+      return res.status(400).json({
+        errorMessage: 'File upload failed',
+        error: err.message,
+      });
+    }
+    console.log(req.body);
+    try {
+      const file = req.file;
+      const isImage = file.mimetype.startsWith('image/');
+      const isVideo = file.mimetype.startsWith('video/');
+
+      if (isImage) {
+        const forest_info = new Forest({
+          ...req.body,
+          img: req.file.path,
+          video: ""
+        });
+        const info = await forest_info.save();
+        res.status(200).json({
+          message: 'New Info Added To map successfully',
+          data: info,
+        });
+      } else if (isVideo) {
+        const forest_info = new Forest({
+          ...req.body,
+          img: "",
+          video: req.file.path,
+        });
+        const info = await forest_info.save();
+        res.status(200).json({
+          message: 'New Info Added To map successfully',
+          data: info,
+        });
+      }
+    } catch (err) {
+      res.status(403).json({
+        errorMessage: 'There was a problem adding info to the map',
+        error: err.message,
+      });
+    }
+  });
+>>>>>>> 700c369f260f37aa1831f8ef706f04afd514d758
 };
+
+
+
 const updateToMap = async (req, res) => {
   try {
     const { id } = req.params;

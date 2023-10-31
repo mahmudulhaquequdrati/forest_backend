@@ -27,6 +27,7 @@ app.get("/", (req, res) => {
 // -----
 // Routes
 app.use("/api", forestRoute);
+app.use('/uploads', express.static('uploads'));
 // -----
 // ----------
 // ---------------
