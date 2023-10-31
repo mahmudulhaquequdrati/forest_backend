@@ -18,6 +18,7 @@ const getAllInfo = async (req, res) => {
 
 const addToMap = async (req, res) => {
   try {
+    console.log(req.body);
     const forest_info = new Forest(req.body);
     const info = await forest_info.save();
     res.status(200).json({
