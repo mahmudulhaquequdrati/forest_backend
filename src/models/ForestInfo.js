@@ -23,7 +23,8 @@ const ForestIno = new mongoose.Schema(
       add: String,
     },
     reportType: String,
-    media: String,
+    img: String,
+    video: String,
     date: String,
     status: {
       type: String,
