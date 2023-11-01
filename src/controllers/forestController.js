@@ -32,19 +32,23 @@ const getAllInfo = async (req, res) => {
 //     });
 //   }
 // };
-const addToMap = (req, res) => {
+const addToMap = async (req, res) => {
   upload(req, res, async (err) => {
+    // console.log(req);
     if (err) {
-      return res.status(400).json({
-        errorMessage: "File upload failed",
-        error: err.message,
-      });
+      // return res.status(400).json({
+      //   errorMessage: "File upload failed",
+      //   error: err.message,
+      // });
     }
-    console.log(req.body);
     try {
       const file = req.file;
-      const isImage = file.mimetype.startsWith("image/");
-      const isVideo = file.mimetype.startsWith("video/");
+      let isImage = null;
+      let isVideo = null;
+      if (file) {
+        isImage = file.mimetype.startsWith("image/");
+        isVideo = file.mimetype.startsWith("video/");
+      }
 
       let address = {
         latitude: req.body?.latitude,
@@ -70,6 +74,18 @@ const addToMap = (req, res) => {
           address: address,
           img: "",
           video: req.file.path,
+        });
+        const info = await forest_info.save();
+        res.status(200).json({
+          message: "New Info Added To map successfully",
+          data: info,
+        });
+      } else {
+        const forest_info = new Forest({
+          ...req.body,
+          address: address,
+          img: "",
+          video: "",
         });
         const info = await forest_info.save();
         res.status(200).json({
